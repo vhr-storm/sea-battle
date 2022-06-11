@@ -1,8 +1,4 @@
-/******************************************************************************
-                            Online Java Compiler.
-                Code, Compile, Run and Debug java program online.
-Write your code in this editor and press "Run" button to execute it.
-*******************************************************************************/
+
 
 
 import java.io.*;
@@ -22,13 +18,13 @@ public class Main {
 class beginningOfGame{
     static int FIELDSIZE = 10;
     static int AMOUNTOFBOATS=10;
-    char[][] battleField = new char[FIELDSIZE][FIELDSIZE];
+    int[][] battleField = new int[FIELDSIZE][FIELDSIZE];
     int[][] sizeOfBoats = {{1,4},{2,3},{3,2},{4,1}};
     
     void emptyFillingField(){
         for(int posY = 0 ; posY< FIELDSIZE; posY++){
             for(int posX=0; posX < FIELDSIZE; posX++){
-                battleField[posY][posX]='0';
+                battleField[posY][posX]=0;
             }
         }
         
@@ -55,7 +51,7 @@ class beginningOfGame{
             if(checkValidatePlace(randomPosX,randomPosY,typeOfBoat+1,position)){ // проверка возможности расположения корабля в данных коор-дах
                 if(position){
                     for(int placeY=0; placeY < sizeOfBoats[typeOfBoat][0]; placeY++){ // расположение корабля по вертикали
-                    battleField[randomPosY][randomPosX]='1';
+                    battleField[randomPosY][randomPosX]=1;
                     randomPosY++;
                 }
                sizeOfBoats[typeOfBoat][1]=sizeOfBoats[typeOfBoat][1]-1;
@@ -64,7 +60,7 @@ class beginningOfGame{
                 }
                 else {
                     for(int placeX=0; placeX < sizeOfBoats[typeOfBoat][0]; placeX++){ // расположение корабля по горизонтали
-                    battleField[randomPosY][randomPosX]='1';
+                    battleField[randomPosY][randomPosX]=1;
                     randomPosX++;
                 }
                sizeOfBoats[typeOfBoat][1]=sizeOfBoats[typeOfBoat][1]-1;
