@@ -1,9 +1,7 @@
 /******************************************************************************
-
                             Online Java Compiler.
                 Code, Compile, Run and Debug java program online.
 Write your code in this editor and press "Run" button to execute it.
-
 *******************************************************************************/
 
 
@@ -53,6 +51,7 @@ class beginningOfGame{
         while(true){
             randomPosX=range+(int)(Math.random()*(FIELDSIZE-1));
             randomPosY=range+(int)(Math.random()*(FIELDSIZE-1));
+            // System.out.println("randomPosX: "+randomPosX+" randomPosY: "+randomPosY);
             if(checkValidatePlace(randomPosX,randomPosY,typeOfBoat+1,position)){ // проверка возможности расположения корабля в данных коор-дах
                 if(position){
                     for(int placeY=0; placeY < sizeOfBoats[typeOfBoat][0]; placeY++){ // расположение корабля по вертикали
@@ -60,6 +59,7 @@ class beginningOfGame{
                     randomPosY++;
                 }
                sizeOfBoats[typeOfBoat][1]=sizeOfBoats[typeOfBoat][1]-1;
+            //   System.out.println("count: "+ sizeOfBoats[typeOfBoat][1]);
                break;
                 }
                 else {
@@ -68,6 +68,7 @@ class beginningOfGame{
                     randomPosX++;
                 }
                sizeOfBoats[typeOfBoat][1]=sizeOfBoats[typeOfBoat][1]-1;
+                // System.out.println("count: "+ sizeOfBoats[typeOfBoat][1]);
                break;
                 }
             }
@@ -75,6 +76,8 @@ class beginningOfGame{
             
         if(sizeOfBoats[typeOfBoat][1]==0){ // если корабли данного типа закончились, строим корабли другого типа
             typeOfBoat++;
+            // everythingIsOk();
+            //  System.out.println("types: "+ sizeOfBoats[typeOfBoat][0]);
         }
         return typeOfBoat;
     }
@@ -82,35 +85,31 @@ class beginningOfGame{
     boolean checkValidatePlace(int posX,int posY,int typeOfBoat, boolean position){ // проверка возможности расположения корабля
         boolean isValid=true;
         int countOfCheck=2+typeOfBoat;//снизу, сверху и размер корабля для проверки
-        int radiusOfCheck = 2; // для проверки клеток на отсутствие корабля
+        int radiusOfCheck = 3; // для проверки клеток на отсутствие корабля
         if(position){ // вертикальное расположение корабля
-            for(int check = -1; check < countOfCheck; check++){
-                for(int checkPosY=-1;checkPosY < radiusOfCheck;checkPosY++){
-                if(((checkPosY+posY)>=FIELDSIZE)||((posX+check)>=FIELDSIZE)){
-                    isValid=false;
-                    break;
-                } else if(((checkPosY+posY)<0)||((posX+check)<0)){
-                    continue;
-                }else if(battleField[posX+check][posY+checkPosY]!='0'){
-                isValid=false;
-                break;
-            }
+            if(FIELDSIZE-posY-typeOfBoat-1>0){
+                for(int checkPosY=posY;checkPosY<posY+countOfCheck;checkPosY++){
+                    for(int checkPosX=posX;checkPosX<posX+radiusOfCheck;checkPosX++){
+                        if(checkPosX>= FIELDSIZE){
+                            continue;
+                        }else if (battleField[checkPosY][checkPosX]==1){
+                            isValid=false;
+                        }
+                    }
                 }
-        }
+            }
         }else{
-            for(int check = -1; check < countOfCheck; check++){
-                for(int checkPosX=-1;checkPosX < radiusOfCheck;checkPosX++){
-                if(((checkPosX+posX)>=FIELDSIZE)||((posY+check)>=FIELDSIZE)){
-                    isValid=false;
-                    break;
-                } else if(((checkPosX+posX)<0)||((posY+check)<0)){
-                    continue;
-                }else if(battleField[checkPosX+posX][posY+check]!='0'){
-                isValid=false;
-                break;
+            if(FIELDSIZE-posX-typeOfBoat-1>0){
+                for(int checkPosX=posX;checkPosX<posX+countOfCheck;checkPosX++){
+                    for(int checkPosY=posY;checkPosY<posY+radiusOfCheck;checkPosY++){
+                        if(checkPosY>= FIELDSIZE){
+                            continue;
+                        }else if (battleField[checkPosY][checkPosX]==1){
+                            isValid=false;
+                        }
+                    }
+                }
             }
-            }
-        }
         }
         
         return isValid;
@@ -123,6 +122,5 @@ class beginningOfGame{
              }
              System.out.println("");
          }
-        System.out.println("okay sheesh");
     }
 }
