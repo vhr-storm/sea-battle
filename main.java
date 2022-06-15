@@ -1,6 +1,4 @@
 
-
-
 import java.io.*;
 import java.util.*;
 
@@ -40,11 +38,12 @@ class beginningOfGame{
     
     int randomPlacingBoats( int typeOfBoat){
         Random random = new Random();
+        boolean endOfPlacing=true;
         int boatSize=0;
         int range=0;
         int randomPosX,randomPosY;
         boolean position=random.nextBoolean(); // случайная генерация расположения корабля
-        while(true){
+        while(endOfPlacing){
             randomPosX=range+(int)(Math.random()*(FIELDSIZE-1));
             randomPosY=range+(int)(Math.random()*(FIELDSIZE-1));
             // System.out.println("randomPosX: "+randomPosX+" randomPosY: "+randomPosY);
@@ -54,9 +53,8 @@ class beginningOfGame{
                     battleField[randomPosY][randomPosX]=1;
                     randomPosY++;
                 }
-               sizeOfBoats[typeOfBoat][1]=sizeOfBoats[typeOfBoat][1]-1;
-            //   System.out.println("count: "+ sizeOfBoats[typeOfBoat][1]);
-               break;
+                endOfPlacing=false;
+                sizeOfBoats[typeOfBoat][1]=sizeOfBoats[typeOfBoat][1]-1;
                 }
                 else {
                     for(int placeX=0; placeX < sizeOfBoats[typeOfBoat][0]; placeX++){ // расположение корабля по горизонтали
@@ -64,8 +62,7 @@ class beginningOfGame{
                     randomPosX++;
                 }
                sizeOfBoats[typeOfBoat][1]=sizeOfBoats[typeOfBoat][1]-1;
-                // System.out.println("count: "+ sizeOfBoats[typeOfBoat][1]);
-               break;
+               endOfPlacing=false;
                 }
             }
         }
@@ -75,18 +72,19 @@ class beginningOfGame{
             // everythingIsOk();
             //  System.out.println("types: "+ sizeOfBoats[typeOfBoat][0]);
         }
+
         return typeOfBoat;
     }
     
     boolean checkValidatePlace(int posX,int posY,int typeOfBoat, boolean position){ // проверка возможности расположения корабля
         boolean isValid=true;
         int countOfCheck=2+typeOfBoat;//снизу, сверху и размер корабля для проверки
-        int radiusOfCheck = 3; // для проверки клеток на отсутствие корабля
+        int radiusOfCheck = 2; // для проверки клеток на отсутствие корабля
         if(position){ // вертикальное расположение корабля
             if(FIELDSIZE-posY-typeOfBoat-1>0){
-                for(int checkPosY=posY;checkPosY<posY+countOfCheck;checkPosY++){
-                    for(int checkPosX=posX;checkPosX<posX+radiusOfCheck;checkPosX++){
-                        if(checkPosX>= FIELDSIZE){
+                for(int checkPosY=posY-1;checkPosY<posY+countOfCheck-1;checkPosY++){
+                    for(int checkPosX=posX-1;checkPosX<posX+radiusOfCheck;checkPosX++){
+                        if((checkPosY>= FIELDSIZE)||(checkPosY<=-1)||(checkPosX<=-1)||(checkPosX>= FIELDSIZE)){
                             continue;
                         }else if (battleField[checkPosY][checkPosX]==1){
                             isValid=false;
@@ -96,9 +94,9 @@ class beginningOfGame{
             }
         }else{
             if(FIELDSIZE-posX-typeOfBoat-1>0){
-                for(int checkPosX=posX;checkPosX<posX+countOfCheck;checkPosX++){
-                    for(int checkPosY=posY;checkPosY<posY+radiusOfCheck;checkPosY++){
-                        if(checkPosY>= FIELDSIZE){
+                for(int checkPosX=posX-1;checkPosX<posX+countOfCheck-1;checkPosX++){
+                    for(int checkPosY=posY-1;checkPosY<posY+radiusOfCheck;checkPosY++){
+                        if((checkPosY>= FIELDSIZE)||(checkPosY<=-1)||(checkPosX<=-1)||(checkPosX>= FIELDSIZE)){
                             continue;
                         }else if (battleField[checkPosY][checkPosX]==1){
                             isValid=false;
